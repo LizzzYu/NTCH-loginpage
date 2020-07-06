@@ -1,6 +1,6 @@
 /** @jsx jsx */
 
-import { useState } from 'react';
+import { useState, Fragment } from 'react';
 import { jsx, css } from '@emotion/core';
 import background from './static/background.jpg';
 import logo from './static/Bitmap.png'
@@ -227,7 +227,9 @@ const styles = {
 function Login() {
   const [loginSuccess, setloginSuccess] = useState(true);
   const [forgetPassword, setforgetPassword] = useState(true);
-  const [sentEmail, setsentEmail] = useState(true);
+  const [sentedEmail, sentEmail] = useState(true);
+
+  console.log('sentedEmail', sentedEmail);
 
   return (
     <div css={styles.wrapper}>
@@ -280,23 +282,23 @@ function Login() {
           </div>
           ) : (
           <div id="resetPasswordSec">
-            {sentEmail ? (
-              <fragment>
+            {sentedEmail ? (
+              <Fragment>
                 <div css={styles.resetPassword}>
                   <img src={triangle} alt="三角形符號"/>
                   <span css={styles.resetPasswordＴitle}>重置帳號密碼</span>
                 </div>
                 <div css={styles.resetPasswordBox}>
                   <span css={styles.resetPasswordText}>請輸入註冊的電子信箱：</span>
-                  <input type="text" value={"註冊的電子信箱"} css={[styles.inputcontent, styles.resetBtns, styles.resetInputcontent]}/>
+                  <input type="text" placeholder="註冊的電子信箱" css={[styles.inputcontent, styles.resetBtns, styles.resetInputcontent]}/>
                   <button 
                     type="button"
-                    onClick={() => setsentEmail(!sentEmail)}
+                    onClick={() => sentEmail(!sentedEmail)}
                     css={[styles.Btns, styles.loginBTN]}>
                     <span css={styles.buttonText}>下一步</span>
                   </button>
                 </div>
-            </fragment>
+            </Fragment>
             ) : (
             <div css={styles.sentEmailBox}>
               <span css={styles.resetPasswordText}>請到您申請帳號的信箱中收取認證信</span>
