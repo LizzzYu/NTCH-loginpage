@@ -6,6 +6,7 @@ import background from './static/background.jpg';
 import logo from './static/Bitmap.png'
 import fblogo from './static/fblogo.png'
 import notice from './static/notice_number.png'
+import triangle from './static/Triangle.png'
 
 const styles = {
   wrapper: css`
@@ -19,6 +20,7 @@ const styles = {
     justify-content: center;
   `,
   box: css`
+  position: relative;
     box-sizing:border-box;
     display: flex;
     background-color: white;
@@ -68,6 +70,8 @@ const styles = {
     padding-left:10px;
     background-color:#FAFAFA;
     border: 1px solid #D0D0D0;
+    box-sizing: border-box;
+    width:100%;
   `,
   Btns:css`
     outline:none;
@@ -111,7 +115,7 @@ const styles = {
   buttonText:css`
     font-size:16px;
     font-weight:bold;
-    letter-spacing:10px;
+    letter-spacing:6px;
     color:#fff;
     display: flex;
   `,
@@ -139,6 +143,12 @@ const styles = {
     letter-spacing: 2px;
     padding: 0 20px;
   `,
+  linkIdButton:css`
+    border: 0;
+    background-color:transparent;
+    outline:none;
+    cursor: pointer;
+  `,
   linkIdRegister:css`
 
   `,
@@ -158,6 +168,7 @@ const styles = {
     padding-bottom:20px;
     display:flex;
     align-items:center;
+    letter-spacing:1px;
   `,
   loginError:css`
     font-size:12px;
@@ -168,61 +179,77 @@ const styles = {
     height:16px;
     padding-right:9px;
   `,
+  resetPassword:css`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position:absolute;
+    top:11px;
+    left:16px;
+  `,
+  resetPasswordＴitle:css`
+    padding: 0 0 0 16px;
+    font-size:16px;
+    letter-spacing:1px;
+  `,
+  resetPasswordBox:css`
+    position: absolute;
+    top: 270px;
+    left: 85px;
+    width:250px;
+  `,
+  resetPasswordText:css`
+    font-size:13px;
+    letter-spacing:1px;
+    flex-shrink:0;
+  `,
+  resetInputcontent:css`
+    color: #989898;
+  `,
+  resetBtns:css`
+    margin: 19px 0 18px 0;
+    height:40px;
+    outline:none;
+    border-radius:3px;
+    flex-shrink: 0;
+  `,
+  sentEmailBox:css`
+  position: absolute;
+  top: 270px;
+  left: 85px;
+  width:250px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+`,
 }
 
 function Login() {
-  const [LoginState, setLoginState] = useState(true);
+  const [loginSuccess, setloginSuccess] = useState(true);
+  const [forgetPassword, setforgetPassword] = useState(true);
+  const [sentEmail, setsentEmail] = useState(true);
 
   return (
     <div css={styles.wrapper}>
       <div css={styles.box}>
-        {LoginState ? (
-          <div css={styles.boxwrapper}>
+          {forgetPassword ? (
+          <div id="mainloginPage" css={styles.boxwrapper}>
             <div css={styles.logowrapper}>
               <img src={logo} css={styles.logo} alt="兩廳院logo"/>
               <span css={styles.logoTitle}>節目排檔系統</span>
             </div>
-            <div css={styles.boxcontent}>
-              <input css={[styles.Btns, styles.inputcontent]}></input>
-              <input css={[styles.Btns, styles.inputcontent]}></input>
-              <button
-                type="button"
-                onClick={() => setLoginState(!LoginState)} 
-                css={[styles.Btns, styles.loginBTN]}>
-                <span css={styles.buttonText}>登入</span>
-              </button>
-              <button 
-                type="button"
-                css={[styles.Btns, styles.fbloginBTN]}>
-                <img src={fblogo} css={styles.fblogo} alt="FBlogo" />
-                <span css={[styles.buttonText, styles.fbbuttonText]}>Facebook登入</span>
-              </button>
-            </div>
-            <div css={styles.boxBottom}>
-              <div css={styles.linkIdWrapper}>
-                <span css={[styles.linkIdText, styles.linkIdRegister]}>申請帳號</span>
-                <div css={styles.PasswordSecLine}></div>
-                <span css={[styles.linkIdText, styles.linkIdForgetPwd]}>忘記密碼？</span>
-              </div>
-              <span css={styles.contactNum}>客服電話：(02)8877-6655</span>
-            </div>
-          </div>
-        ) : (
-          <div css={styles.boxwrapper}>
-            <div css={styles.logowrapper}>
-              <img src={logo} css={styles.logo} alt="兩廳院logo"/>
-              <span css={styles.logoTitle}>節目排檔系統</span>
-            </div>
-            <div css={styles.loginErrorSec}>
+            {loginSuccess ? null : (
+              <div css={styles.loginErrorSec}>
               <img src={notice} css={styles.loginErrorIcon} alt="Error Icon"/>
               <span css={styles.loginError}>帳號或密碼錯誤，請重新輸入</span>
             </div>
+            )}
             <div css={styles.boxcontent}>
-              <input css={[styles.Btns, styles.inputcontent, styles.BtnsError]}></input>
-              <input css={[styles.Btns, styles.inputcontent]}></input>
+              <input type="text" css={[styles.Btns, styles.inputcontent]} />
+              <input type="password" css={[styles.Btns, styles.inputcontent]} />
               <button
                 type="button"
-                onClick={() => setLoginState(!LoginState)} 
+                onClick={() => setloginSuccess(!loginSuccess)} 
                 css={[styles.Btns, styles.loginBTN]}>
                 <span css={styles.buttonText}>登入</span>
               </button>
@@ -235,14 +262,54 @@ function Login() {
             </div>
             <div css={styles.boxBottom}>
               <div css={styles.linkIdWrapper}>
-                <span css={[styles.linkIdText, styles.linkIdRegister]}>申請帳號</span>
+                <button
+                  type="button"
+                  css={styles.linkIdButton}>
+                  <span css={[styles.linkIdText, styles.linkIdRegister]}>申請帳號</span>
+                </button>
                 <div css={styles.PasswordSecLine}></div>
-                <span css={[styles.linkIdText, styles.linkIdForgetPwd]}>忘記密碼？</span>
+                <button
+                  type="button" 
+                  onClick={() => setforgetPassword(!forgetPassword)}
+                  css={styles.linkIdButton}>
+                  <span css={[styles.linkIdText, styles.linkIdForgetPwd]}>忘記密碼？</span>
+                </button>
               </div>
               <span css={styles.contactNum}>客服電話：(02)8877-6655</span>
             </div>
           </div>
-        )}
+          ) : (
+          <div id="resetPasswordSec">
+            {sentEmail ? (
+              <fragment>
+                <div css={styles.resetPassword}>
+                  <img src={triangle} alt="三角形符號"/>
+                  <span css={styles.resetPasswordＴitle}>重置帳號密碼</span>
+                </div>
+                <div css={styles.resetPasswordBox}>
+                  <span css={styles.resetPasswordText}>請輸入註冊的電子信箱：</span>
+                  <input type="text" value={"註冊的電子信箱"} css={[styles.inputcontent, styles.resetBtns, styles.resetInputcontent]}/>
+                  <button 
+                    type="button"
+                    onClick={() => setsentEmail(!sentEmail)}
+                    css={[styles.Btns, styles.loginBTN]}>
+                    <span css={styles.buttonText}>下一步</span>
+                  </button>
+                </div>
+            </fragment>
+            ) : (
+            <div css={styles.sentEmailBox}>
+              <span css={styles.resetPasswordText}>請到您申請帳號的信箱中收取認證信</span>
+              <button 
+                type="button"
+                onClick={() => setforgetPassword(!forgetPassword)}
+                css={[styles.Btns, styles.loginBTN, styles.resetBtns]}>
+                <span css={styles.buttonText}>回登入頁</span>
+              </button>
+            </div>
+            )}
+          </div>
+          )}
       </div>
     </div>
   );
